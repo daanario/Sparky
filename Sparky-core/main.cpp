@@ -34,20 +34,21 @@ int main()
 
 	Simple2DRenderer renderer;
 	
-	double x=300, y=200;
+	double x=50, y=50;
 	
 	
 	
-	double sampleTime = 1;
-	double initialVelocity = 75;
-	double velocity;
-	double time = 0;
-	double acceleration = 9.82;
-	int index = 1;
-	float samples = 100 / sampleTime;
+	long double sampleTime = 1;
+	long double initialVelocity = 75;
+	long double velocity;
+	long double time = 0;
+	long double acceleration = 9.82;
+	
+	long double samples = 100 / sampleTime;
 	
 	velocity = initialVelocity;
-	
+	long double index = velocity - 30;
+
 	GLint64 timer = 0;
 	unsigned int timerDiff = 10000000;
 	GLint64 timerStart;
@@ -85,23 +86,24 @@ int main()
 		}
 		
 		#endif
-
+		
 
 		glGetInteger64v(GL_TIMESTAMP, &timer);
 		//std::cout << timer << std::endl;
 
 		if ((timer - timerStart) >= timerDiff) {
-			sampleTime+=0.0000000000000000000000000001;
-			index += 3;
-			//std::cout << j << std::endl;
+			sampleTime+=0.00000000001;
+			index += 0.0000000001;
+			
 			timerStart = timer;
 
 			velocity = velocity - acceleration*sampleTime;
 			y = y + velocity*sampleTime;
 			
 			x += index * sampleTime;
-
-
+			std::cout << "x: " << x << std::endl;
+			std::cout << "y: " << y << std::endl;
+			
 		}
 
 		shader.setUniform2f("light_pos", vec2((float)(x * 16.0f / 1280.0f), (y * 9.0f / 720.0f)));
